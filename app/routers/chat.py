@@ -41,18 +41,10 @@ async def chat(req: ChatRequest):
     else:
         comments_block = "\n\nNo timeline comments yet."
 
-    # Only attach the video when the user is asking about something visual.
-    # Otherwise Gemini auto-analyzes the moment it sees a video file.
-    _VIDEO_TRIGGERS = (
-        "second", "seconds", "minute", "timestamp", "0:", "1:", "2:",
-        "frame", "scene", "shot", "clip", "footage", "video",
-        "look at", "show", "watch", "see", "what happens", "beginning",
-        "end", "intro", "outro",
-    )
-    msg_lower = req.message.lower()
-    include_video = any(t in msg_lower for t in _VIDEO_TRIGGERS)
-
-    gemini_file_name = await ensure_gemini_file() if include_video else None
+    # Always attach the video — it's already uploaded to Gemini File API.
+    # Conditional attachment caused failures on follow-up messages like
+    # "add these to the timeline" which have no visual trigger words.
+    gemini_file_name = await ensure_gemini_file()
 
     answer = await chat_with_context(
         chat_system_prompt, req.message + comments_block,

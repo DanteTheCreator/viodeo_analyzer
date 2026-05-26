@@ -34,6 +34,7 @@ async def upload_video(file: UploadFile = File(...)):
         "gemini_file_uri":  None,
         "gemini_file_name": None,
         "comments":         [],
+        "chat_history":     [],
     })
     return {"ok": True, "filename": file.filename}
 

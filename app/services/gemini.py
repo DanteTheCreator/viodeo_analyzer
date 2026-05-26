@@ -202,21 +202,42 @@ async def chat_with_context(
     gemini_file_name: Optional[str] = None,
     temperature: float = TEMPERATURE,
 ) -> str:
-    """Free-form chat — no JSON schema constraint, returns raw model text.
+    """Free-form chat with persistent conversation history.
 
-    Pass gemini_file_name to attach the video so Gemini can inspect frames.
-    Omit it (or pass None) for text-only replies — no upload, instant response.
+    The video file is always attached to the current user turn so Gemini
+    keeps visual context across follow-up messages like "add these to the timeline".
+    History is stored in state["chat_history"] and threaded through every call.
     """
     def _call():
         model = _build_model(system_prompt, temperature=temperature)
+
+        # Build history for the chat session (text-only — video is re-attached each turn)
+        history = [
+            {"role": turn["role"], "parts": [turn["parts"][0]]}
+            for turn in state["chat_history"]
+        ]
+        chat = model.start_chat(history=history)
+
+        # Current user turn: always include the video file if available
+        parts = []
         if gemini_file_name:
-            parts = [genai.get_file(gemini_file_name), user_content]
-        else:
-            parts = [user_content]
-        response = model.generate_content(parts)
+            parts.append(genai.get_file(gemini_file_name))
+        parts.append(user_content)
+
+        response = chat.send_message(parts)
         return response.text if response.parts else ""
 
     try:
-        return await asyncio.to_thread(_call)
+        reply = await asyncio.to_thread(_call)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+    # Persist this turn to history (text only — file refs can't be serialised)
+    state["chat_history"].append({"role": "user",  "parts": [user_content]})
+    state["chat_history"].append({"role": "model", "parts": [reply]})
+
+    # Keep history bounded to last 20 turns (40 entries) to avoid token blowout
+    if len(state["chat_history"]) > 40:
+        state["chat_history"] = state["chat_history"][-40:]
+
+    return reply

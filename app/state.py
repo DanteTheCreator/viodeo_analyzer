@@ -8,4 +8,5 @@ state: dict = {
     "brand_logo_path":        None,
     "brand_logo_mime":        None,
     "brand_logo_gemini_name": None,
+    "chat_history":           [],         # list of {"role": "user"|"model", "parts": [str]}
 }
