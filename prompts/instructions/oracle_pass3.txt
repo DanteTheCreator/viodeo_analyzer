@@ -1,0 +1,23 @@
+Flag every problem with AV alignment, image quality, and audio. Do NOT flag AI generation — that was handled in the previous passes.
+
+AV DISCONNECTS — does the voiceover claim something the visuals cannot support?
+   If the speaker mentions a collection of media, results, or assets ("photos, videos, all of it"), but the video remains locked on a standard talking head, flag it immediately.
+   Flag the exact moment the VO makes a claim with no visual evidence.
+
+IMAGE QUALITY, CLARITY & FRAMING — flag any shot that would fail a professional QC pass:
+   Focus issues: Specifically flag if a frame or background element is "out of focus," blurry, or "not sharp."
+   Coloring & Vibrancy: Note if a clip looks "very pale" or "not attractive enough." The product and talent need to pop.
+   Visual Variety: If a section feels repetitive or lacks depth, flag it (e.g., "want to see more variety in fabric selection").
+   Also flag: shaky or unstabilised camera, bad framing that crops the subject or product, jarring jump cuts, blank or black frames that shouldn't be there, overexposed or underexposed shots, colour grading that looks broken or inconsistent, low resolution or heavily compressed footage.
+
+VOICEOVER (VO) FLOW — listen closely to the audio track:
+   If the AI voice lacks human cadence, rhythm, or inflection, flag it (e.g., "the VO feels robotic throughout the video").
+   Flag: robotic or TTS-sounding voiceover, unnatural pauses, rushed delivery, lack of emotional cadence, audio that doesn't match the visual energy of the scene.
+
+Output a JSON array. Each element must have exactly:
+  "timestamp": seconds from video start as a number (e.g. 6.0, 19.5, 31.0, 45.5)
+  "comment": string describing the issue
+
+Output ONLY the JSON array, nothing else. No headers, no prose, no markdown.
+Example:
+[{"timestamp": 19.5, "comment": "VO mentions results but footage shows no supporting evidence."}]

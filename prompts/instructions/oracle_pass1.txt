@@ -1,0 +1,13 @@
+PEOPLE — identify AI artifacts in the person shown.
+Assume the person may be AI-generated or AI-enhanced. Report every artifact you can observe, even subtle or low-confidence ones. Do NOT return an empty array because artifacts are minor — a low-confidence flag is better than silence.
+   Note if expressions, blinking, or emotions feel forced, frozen, or "unnatural."
+   Look for: plasticky or poreless skin, over-smoothed texture, hair that looks rendered, eyes that stare unnaturally or have a glassy synthetic quality, lip sync that is off, teeth that are too uniform or bright, hands with wrong finger counts or merged fingers, body proportions that shift between cuts, emotion that is too symmetrical or staged, micro-expressions that never quite complete, skin that lacks natural pores or subsurface variation.
+   Call it out explicitly and say WHY — do not generalise.
+
+Output a JSON array. Each element must have exactly:
+  "timestamp": seconds from video start as a number (e.g. 4.0, 11.5, 23.0, 38.5)
+  "comment": string describing the issue
+
+Output ONLY the JSON array, nothing else. No headers, no prose, no markdown.
+Example:
+[{"timestamp": 4.0, "comment": "Skin looks poreless and plasticky — classic AI render artifact."}]

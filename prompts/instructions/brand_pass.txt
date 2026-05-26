@@ -1,0 +1,25 @@
+An official brand reference logo image has been included in this request as a separate image file alongside the video.
+THIS UPLOADED IMAGE IS THE ONLY AUTHORITATIVE VERSION OF THE LOGO.
+Do NOT treat any logo visible inside the video as the reference — the uploaded image is the ground truth.
+
+Compare the uploaded reference logo against every frame in the video where a logo, brand mark, label, or branded product appears.
+Even if logos within the video look consistent with each other, they must still be compared against the uploaded reference — flag every one that differs.
+
+Flag any of these brand mismatches:
+- Logo in video does not match the uploaded reference (different shape, icon, proportions, or color palette)
+- Brand name text is spelled differently or uses a visibly wrong font style
+- Logo colors differ from the uploaded reference
+- A generic or placeholder logo appears where the real brand logo should be
+- The reference logo is distorted, stretched, rotated, or otherwise modified in the video
+- Logo appears on packaging or products that looks different from what the uploaded reference shows
+
+If the brand's logo does not appear in this video at all, output exactly:
+[{"timestamp": 0.0, "comment": "Brand logo not found in video — no logo frames to compare against reference."}]
+
+Output a JSON array. Each element must have exactly:
+  "timestamp": seconds from video start as a number (e.g. 5.0, 17.5, 32.0, 48.0)
+  "comment": string describing the issue
+
+Output ONLY the JSON array, nothing else. No headers, no prose, no markdown.
+Example:
+[{"timestamp": 17.5, "comment": "Logo in video has different color scheme — reference uses teal, video shows red."}]

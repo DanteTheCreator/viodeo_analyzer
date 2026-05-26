@@ -1,0 +1,50 @@
+Review this video ad frame-by-frame. This video was produced using AI generation tools — AI artifacts ARE present. Your job is to find and report every one of them.
+
+Do NOT return a short list. Do NOT stop after finding one or two issues. Scan every frame of every category before moving on. When in doubt, flag it — a low-confidence observation is better than silence.
+
+1. PEOPLE — identify AI artifacts in the person shown:
+   Assume they may be AI-generated or AI-enhanced. Report every artifact you can observe, even subtle ones.
+   Note if expressions, blinking, or emotions feel forced, frozen, or "unnatural."
+   Look for: plasticky or poreless skin, over-smoothed texture, hair that looks rendered, eyes that stare unnaturally or have a glassy synthetic quality, lip sync that is off, teeth that are too uniform or bright, hands with wrong finger counts or merged fingers, body proportions that shift between cuts, emotion that is too symmetrical or staged, micro-expressions that never quite complete.
+   Call it out explicitly and say WHY — do not generalise.
+
+2. TEXT — find AI-generated or broken text:
+   Assume text overlays may be AI-generated. Check every label, overlay, sign, screen, packaging. Flag warped letters, gibberish words, inconsistent font weight within the same word, text pasted onto surfaces rather than physically printed, letters bleeding together.
+   Also flag when the overall color grading, persona style, or text blending looks heavily AI-generated and "gives it all away."
+
+3. ENVIRONMENTS & OBJECTS — find AI-generated scenes and objects:
+   Assume backgrounds and objects may be AI-generated. Catch when background objects, textures (like fabrics, yarn, or boxes), or environments morph, look physically impossible, or "don't look real."
+   Look for: backgrounds that look like AI scene fills, objects that morph or shift shape between frames, shadows or reflections that don't match the lighting, textures that tile or look like AI fills, anything that looks copy-pasted or physically impossible, depth-of-field that looks synthetically applied rather than optically real.
+
+4. BRAND FAILURES — keep an eye out for incorrect placeholder branding (e.g., "logo is not our brand logo on the yarn").
+
+5. IMAGE QUALITY, CLARITY & FRAMING — flag any shot that would fail a professional QC pass:
+   Focus issues: Specifically flag if a frame or background element is "out of focus," blurry, or "not sharp enough."
+   Coloring & Vibrancy: Note if a clip looks "very pale" or "not attractive enough." The product and talent need to pop.
+   Visual Variety: If a section feels repetitive or lacks depth, flag it (e.g., "want to see more variety in fabric selection").
+   Also flag: shaky or unstabilised camera, bad framing that crops the subject or product, jarring jump cuts, blank or black frames, overexposed or underexposed shots, broken or inconsistent colour grading, low resolution or compressed footage.
+
+6. AV DISCONNECTS — does the voiceover claim something the visuals cannot support?
+   If the speaker mentions a collection of media, results, or assets ("photos, videos, all of it"), but the video remains locked on a standard talking head, flag it immediately.
+   Flag the exact moment the VO makes a claim with no visual evidence.
+
+7. VOICEOVER FLOW — listen to the audio track as carefully as the visuals:
+   This is MANDATORY. Always evaluate the voiceover — never skip audio review.
+   A robotic or TTS-sounding VO is a critical production flaw and must always be flagged, even if it is the only issue in the video.
+   Flag at the FIRST moment you hear it (typically early in the video): robotic or TTS-sounding delivery, flat or mechanical tone, unnatural pauses between words or sentences, rushed or clipped delivery, lack of emotional cadence or warmth, audio energy that doesn't match the visual mood.
+   If the VO sounds robotic throughout, flag it once at the timestamp where it first becomes clearly noticeable — do not repeat for every line.
+{brand_section}
+
+CRITICAL OUTPUT RULES:
+- NEVER copy, transcribe, or reproduce any text you see in the video.
+- NEVER output binary data, pixel values, or raw encoded content.
+- Describe every issue in plain English only.
+- If a single shot or moment has multiple distinct issues (e.g. both out-of-focus AND AI skin texture), output a SEPARATE JSON entry for each — never combine two issues into one comment.
+
+Output a JSON array. Each element must have exactly:
+  "timestamp": seconds from video start as a precise decimal matching the exact frame — do NOT round to 0.5s increments (e.g. 3.14, 15.47, 28.03 — NOT 3.0, 15.5, 28.0)
+  "comment": string describing the issue
+
+Output ONLY the JSON array, nothing else. No headers, no prose, no markdown.
+Example:
+[{"timestamp": 3.14, "comment": "Presenter's skin is poreless — classic AI render artifact."}, {"timestamp": 3.14, "comment": "Frame is out of focus and pale."}, {"timestamp": 18.83, "comment": "VO sounds flat and robotic — no emotional cadence."}, {"timestamp": 27.61, "comment": "VO claims variety of footage but video stays locked on talking head."}]

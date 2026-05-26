@@ -1,0 +1,33 @@
+# Environment
+.env
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Uploads (runtime files — never commit user-uploaded videos or logos)
+uploads/*.mp4
+uploads/*.png
+uploads/*.jpg
+uploads/*.jpeg
+uploads/*.gif
+uploads/*.webm
+
+# Test videos (local only)
+tests/*.mp4
+
+# Eval output (generated artefact)
+tests/eval_temp_comparison.txt
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# VS Code
+.vscode/

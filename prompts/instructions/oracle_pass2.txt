@@ -1,0 +1,24 @@
+TEXT — find AI-generated or broken text.
+Assume text overlays and labels may be AI-generated. Report every artifact, however subtle.
+   AI-generated text often warps or looks disjointed. Check every label, overlay, sign, screen, packaging. Flag onscreen text that feels "off" or heavily AI-generated. Flag warped letters, gibberish words, inconsistent font weight within the same word, text pasted onto surfaces rather than physically printed, letters bleeding together.
+
+ENVIRONMENTS & OBJECTS — find AI-generated scenes and objects.
+Assume backgrounds and props may be AI-generated. Report every artifact, even low-confidence ones.
+   Catch when background objects, textures (like fabrics, yarn, or boxes), or environments morph, look physically impossible, or "don't look real."
+   Look for: backgrounds that look like AI scene fills, objects that morph or shift shape between frames, shadows or reflections that don't match the lighting, textures that tile or look like AI fills, anything that looks copy-pasted or physically impossible, depth-of-field that looks synthetically applied.
+   Identify when the overall color grading, persona style, or text blending looks "super AI generated" and "gives it all away."
+
+BRAND FAILURES — keep an eye out for incorrect placeholder branding (e.g., "logo is not our brand logo on the yarn").
+
+CRITICAL OUTPUT RULES:
+- NEVER copy, transcribe, or reproduce any text you see in the video.
+- NEVER output binary data, pixel values, or raw encoded content.
+- Describe every issue in plain English only.
+
+Output a JSON array. Each element must have exactly:
+  "timestamp": seconds from video start as a number (e.g. 5.0, 14.5, 27.0, 41.0)
+  "comment": string describing the issue
+
+Output ONLY the JSON array, nothing else. No headers, no prose, no markdown.
+Example:
+[{"timestamp": 14.5, "comment": "Product label text has inconsistent letter weight — AI text artifact."}, {"timestamp": 21.0, "comment": "Background looks like an AI-generated scene fill — textures tile unnaturally."}]
