@@ -110,7 +110,20 @@
     padding: 6px 16px;
     text-align: center;
     border-bottom: 1px solid #76ABAE44;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
+  .upload-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #76ABAE44;
+    border-top-color: #76ABAE;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   /* ── Timeline ── */
   .timeline-section {
@@ -423,7 +436,7 @@
   </label>
 </header>
 
-<div id="uploadBanner">⏳ Saving video… please wait</div>
+<div id="uploadBanner"><span class="upload-spinner"></span><span id="uploadBannerText">Uploading video… please wait</span></div>
 
 <div class="workspace">
 
@@ -529,7 +542,9 @@ document.getElementById('uploadInput').addEventListener('change', async (e) => {
   if (!file) return;
   e.target.value = '';
 
-  document.getElementById('uploadBanner').style.display = 'block';
+  const banner = document.getElementById('uploadBanner');
+  banner.style.display = 'flex';
+  document.getElementById('uploadBannerText').textContent = 'Uploading video… please wait';
   document.getElementById('headerStatus').textContent = 'Uploading…';
 
   const fd = new FormData();
@@ -560,7 +575,7 @@ document.getElementById('uploadInput').addEventListener('change', async (e) => {
     alert('Upload error: ' + msg);
     document.getElementById('headerStatus').textContent = 'Upload failed';
   } finally {
-    document.getElementById('uploadBanner').style.display = 'none';
+    banner.style.display = 'none';
   }
 });
 
