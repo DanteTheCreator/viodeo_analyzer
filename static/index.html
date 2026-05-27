@@ -535,8 +535,12 @@ document.getElementById('uploadInput').addEventListener('change', async (e) => {
   const fd = new FormData();
   fd.append('file', file);
 
+  const controller = new AbortController();
+  const uploadTimeout = setTimeout(() => controller.abort(), 5 * 60 * 1000); // 5 min
+
   try {
-    const res = await fetch('/upload', { method: 'POST', body: fd });
+    const res = await fetch('/upload', { method: 'POST', body: fd, signal: controller.signal });
+    clearTimeout(uploadTimeout);
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'Upload failed');
 
@@ -551,7 +555,9 @@ document.getElementById('uploadInput').addEventListener('change', async (e) => {
     addSystemMsg('Video ready. Gemini will receive it on your first analysis request.');
     await loadComments();
   } catch (err) {
-    alert('Upload error: ' + err.message);
+    clearTimeout(uploadTimeout);
+    const msg = err.name === 'AbortError' ? 'Upload timed out — try a smaller file' : err.message;
+    alert('Upload error: ' + msg);
     document.getElementById('headerStatus').textContent = 'Upload failed';
   } finally {
     document.getElementById('uploadBanner').style.display = 'none';

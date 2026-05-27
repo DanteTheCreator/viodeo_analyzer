@@ -26,7 +26,11 @@ async def upload_video(file: UploadFile = File(...)):
     local_path = UPLOAD_DIR / f"{uuid.uuid4()}{ext}"
 
     async with aiofiles.open(local_path, "wb") as f:
-        await f.write(await file.read())
+        while True:
+            chunk = await file.read(1024 * 1024)  # 1 MB chunks
+            if not chunk:
+                break
+            await f.write(chunk)
 
     state.update({
         "video_path":       str(local_path),
@@ -49,7 +53,11 @@ async def upload_logo(file: UploadFile = File(...)):
     local_path = UPLOAD_DIR / f"logo_{uuid.uuid4()}{ext}"
 
     async with aiofiles.open(local_path, "wb") as f:
-        await f.write(await file.read())
+        while True:
+            chunk = await file.read(1024 * 1024)  # 1 MB chunks
+            if not chunk:
+                break
+            await f.write(chunk)
 
     # Invalidate any cached Gemini logo file
     old_name = state.get("brand_logo_gemini_name")
