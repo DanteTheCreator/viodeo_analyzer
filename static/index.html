@@ -101,27 +101,29 @@
 
   #uploadInput { display: none; }
 
-  /* upload progress banner */
+  /* upload overlay */
   #uploadBanner {
     display: none;
-    background: #31363F;
-    color: #76ABAE;
-    font-size: 12px;
-    padding: 6px 16px;
-    text-align: center;
-    border-bottom: 1px solid #76ABAE44;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(34,40,49,0.72);
+    backdrop-filter: blur(2px);
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 14px;
+    color: #76ABAE;
+    font-size: 13px;
+    letter-spacing: 0.03em;
   }
   .upload-spinner {
-    width: 14px;
-    height: 14px;
-    border: 2px solid #76ABAE44;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #76ABAE33;
     border-top-color: #76ABAE;
     border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    flex-shrink: 0;
+    animation: spin 0.75s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
