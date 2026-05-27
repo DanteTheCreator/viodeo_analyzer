@@ -546,7 +546,7 @@ document.getElementById('uploadInput').addEventListener('change', async (e) => {
 
   const banner = document.getElementById('uploadBanner');
   banner.style.display = 'flex';
-  document.getElementById('uploadBannerText').textContent = 'Uploading video… please wait';
+  document.getElementById('uploadBannerText').textContent = 'Uploading to Gemini… this may take a minute';
   document.getElementById('headerStatus').textContent = 'Uploading…';
 
   const fd = new FormData();
@@ -569,7 +569,7 @@ document.getElementById('uploadInput').addEventListener('change', async (e) => {
 
     videoReady = true;
     document.getElementById('headerStatus').textContent = `Loaded: ${file.name}`;
-    addSystemMsg('Video ready. Gemini will receive it on your first analysis request.');
+    addSystemMsg('Video ready. Gemini has the file — click Start Full Review or ask a question.');
     await loadComments();
   } catch (err) {
     clearTimeout(uploadTimeout);

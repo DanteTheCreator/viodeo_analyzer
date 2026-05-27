@@ -9,6 +9,7 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 
 from app.config import UPLOAD_DIR
+from app.services.gemini import ensure_gemini_file
 from app.state import state
 
 router = APIRouter()
@@ -18,7 +19,7 @@ UPLOAD_DIR.mkdir(exist_ok=True)
 
 @router.post("/upload")
 async def upload_video(file: UploadFile = File(...)):
-    """Save uploaded video locally. Gemini upload is deferred to first analysis."""
+    """Save uploaded video locally then immediately push to Gemini File API."""
     if not file.content_type or not file.content_type.startswith("video/"):
         raise HTTPException(status_code=400, detail="File must be a video")
 
@@ -40,6 +41,11 @@ async def upload_video(file: UploadFile = File(...)):
         "comments":         [],
         "chat_history":     [],
     })
+
+    # Upload to Gemini File API now so first analysis request is instant.
+    # Uploading a file does NOT consume any quota — only model calls do.
+    await ensure_gemini_file()
+
     return {"ok": True, "filename": file.filename}
 
 
